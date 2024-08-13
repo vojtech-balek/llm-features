@@ -1,6 +1,6 @@
 # LLM Extraction of Interpretable Features from Text
 
-This repository contains the code and supplementary materials for the scientific article **"LLM Extraction of Interpretable Features from Text."** The aim of this project is to demonstrate how large language models (LLMs) can be used to extract interpretable features from textual data.
+This repository contains the code and supplementary materials for the scientific article **"LLM Extraction of Interpretable Features from Text."** The aim of this project is to demonstrate how large language models (LLMs) can be used to extract interpretable features from textual data. We further demonstrate the use of these interpretable features with action rules.
 
 ## Table of Contents
 
@@ -25,9 +25,29 @@ To get started, clone this repository and install the necessary dependencies:
 git clone https://github.com/yourusername/LLM-feature-extraction.git
 cd LLM-feature-extraction
 pip install -r requirements.txt
+```
 
+## Usage
 
-## Repository Structure
+### Data Preprocessing
+
+Start by preprocessing the textual data. The preprocessing steps can be found in the [data_preprocessing.ipynb](notebooks/data_preprocessing.ipynb) notebook.
+
+### Feature Extraction
+
+After preprocessing, extract features using the LLMs. The corresponding notebook is [feature_extraction.ipynb](notebooks/feature_extraction.ipynb).
+
+### Feature Interpretation
+
+Interpret the features extracted from the LLMs by following the steps in [feature_interpretation.ipynb](notebooks/feature_interpretation.ipynb).
+
+### Model Evaluation
+
+Evaluate the performance of the models and the extracted features using [model_evaluation.ipynb](notebooks/model_evaluation.ipynb).
+
+### Visualization
+
+Visualize the results and the interpretable features with [visualization.ipynb](notebooks/visualization.ipynb).
 
 
 
