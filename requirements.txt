@@ -1,0 +1,14 @@
+pandas
+ipython
+torch
+transformers
+action-rules
+numpy
+matplotlib
+seaborn
+scipy
+shap
+scikit-learn
+autogluon.tabular
+autogluon.multimodal
+tensorflow
