@@ -19,7 +19,7 @@ We demonstrate this process on two datasets (CORD-19  and M17+) containing sever
 To get started, clone this repository and install the necessary dependencies:
 
 ```bash
-git clone https://github.com/yourusername/LLM-feature-extraction.git
+git clone https://github.com/vojtech-balek/llm-features.git
 cd LLM-feature-extraction
 pip install -r requirements.txt
 ```
