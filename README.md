@@ -5,9 +5,7 @@ This repository contains the code and supplementary materials for the scientific
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Repository Structure](#repository-structure)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Experiments and Notebooks](#experiments-and-notebooks)
 - [Results](#results)
 - [Contributing](#contributing)
@@ -27,7 +25,7 @@ cd LLM-feature-extraction
 pip install -r requirements.txt
 ```
 
-## Usage
+## Experiments
 
 ### Data Preprocessing
 
@@ -35,19 +33,19 @@ Start by preprocessing the textual data. The preprocessing steps can be found in
 
 ### Feature Extraction
 
-After preprocessing, extract features using the LLMs. The corresponding notebook is [feature_extraction.ipynb](notebooks/feature_extraction.ipynb).
+Feature extraction as described in Methodology. The corresponding notebook is [feature_extraction.ipynb](notebooks/feature_extraction.ipynb).
 
-### Feature Interpretation
+### Feature Analysis
 
-Interpret the features extracted from the LLMs by following the steps in [feature_interpretation.ipynb](notebooks/feature_interpretation.ipynb).
+Analysis of the features generated for the CORD-19 and M17+ datasets. Formal test of the relationship between target and generatef features [feature_interpretation.ipynb](notebooks/feature_analysis.ipynb).
 
 ### Model Evaluation
 
 Evaluate the performance of the models and the extracted features using [model_evaluation.ipynb](notebooks/model_evaluation.ipynb).
 
-### Visualization
+### Action Rules
 
-Visualize the results and the interpretable features with [visualization.ipynb](notebooks/visualization.ipynb).
+Mining of the action rules for CORD-19 and M17+ datasets [action-CORD19.ipynb](notebooks/action-CORD19.ipynb) and  [action-M17Plus.ipynb](notebooks/action-M17Plus.ipynb).
 
 
 
