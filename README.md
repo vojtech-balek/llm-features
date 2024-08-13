@@ -6,7 +6,7 @@ This repository contains the code and supplementary materials for the scientific
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Experiments and Notebooks](#experiments-and-notebooks)
+- [Experiments and Notebooks](#experiments)
 - [Results](#results)
 - [Contributing](#contributing)
 - [License](#license)
@@ -27,9 +27,8 @@ pip install -r requirements.txt
 
 ## Experiments
 
-### Data Preprocessing
-
-Start by preprocessing the textual data. The preprocessing steps can be found in the [data_preprocessing.ipynb](notebooks/data_preprocessing.ipynb) notebook.
+### Data
+Data is stored in [data](data) folder.
 
 ### Feature Extraction
 
