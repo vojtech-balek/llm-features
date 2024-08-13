@@ -45,7 +45,7 @@ Evaluate the performance of the models and the extracted features using [model_e
 
 ### Action Rules
 
-Mining of the action rules for CORD-19 and M17+ datasets [action-CORD19.ipynb](notebooks/action-CORD19.ipynb) and  [action-M17Plus.ipynb](notebooks/action-M17Plus.ipynb).
+Mining of the action rules for CORD-19 and M17+ datasets [action-CORD19.ipynb](notebooks/actions-CORD19.ipynb) and  [action-M17Plus.ipynb](notebooks/actions-M17Plus.ipynb).
 
 
 
