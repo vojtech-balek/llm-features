@@ -8,7 +8,6 @@ This repository contains the code and supplementary materials for the scientific
 - [Installation](#installation)
 - [Experiments and Notebooks](#experiments)
 - [Results](#results)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
@@ -47,6 +46,6 @@ Evaluate the performance of the models and the extracted features using [model_e
 Mining of the action rules for CORD-19 and M17+ datasets [action-CORD19.ipynb](notebooks/actions-CORD19.ipynb) and  [action-M17Plus.ipynb](notebooks/actions-M17Plus.ipynb).
 
 
-
+### License
 
 
