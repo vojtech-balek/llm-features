@@ -20,7 +20,7 @@ To get started, clone this repository and install the necessary dependencies:
 
 ```bash
 git clone https://github.com/vojtech-balek/llm-features.git
-cd LLM-feature-extraction
+cd llm-features
 pip install -r requirements.txt
 ```
 
