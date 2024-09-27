@@ -6,9 +6,8 @@ This repository contains the code and supplementary materials for the scientific
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Experiments and Notebooks](#experiments-and-notebooks)
+- [Experiments and Notebooks](#experiments)
 - [Results](#results)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
@@ -20,16 +19,15 @@ We demonstrate this process on two datasets (CORD-19  and M17+) containing sever
 To get started, clone this repository and install the necessary dependencies:
 
 ```bash
-git clone https://github.com/yourusername/LLM-feature-extraction.git
-cd LLM-feature-extraction
+git clone https://github.com/vojtech-balek/llm-features.git
+cd llm-features
 pip install -r requirements.txt
 ```
 
 ## Experiments
 
-### Data Preprocessing
-
-Start by preprocessing the textual data. The preprocessing steps can be found in the [data_preprocessing.ipynb](notebooks/data_preprocessing.ipynb) notebook.
+### Data
+Data is stored in [data](data) folder.
 
 ### Feature Extraction
 
@@ -48,6 +46,6 @@ Evaluate the performance of the models and the extracted features using [model_e
 Mining of the action rules for CORD-19 and M17+ datasets [action-CORD19.ipynb](notebooks/actions-CORD19.ipynb) and  [action-M17Plus.ipynb](notebooks/actions-M17Plus.ipynb).
 
 
-
+### License
 
 
