@@ -35,7 +35,7 @@ Feature extraction as described in Methodology. The corresponding notebook is [f
 
 ### Feature Analysis
 
-Analysis of the features generated for the CORD-19 and M17+ datasets. Formal test of the relationship between target and generatef features [feature_interpretation.ipynb](notebooks/feature_analysis.ipynb).
+Analysis of the features generated for the CORD-19 and M17+ datasets. Formal test of the relationship between target and generatef features [feature_interpretation.ipynb](notebooks/feature_analysis-CORD19-M17plus.ipynb).
 
 ### Model Evaluation
 
