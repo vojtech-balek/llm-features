@@ -7,6 +7,19 @@ from sklearn.utils import resample
 import re
 import json
 import os
+from nltk import download
+from nltk.corpus import stopwords, wordnet
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk.tag import pos_tag
+import re
+import string
+import contractions
+
+download('averaged_perceptron_tagger')
+download('stopwords')
+download('punkt')
+
 
 def plot_categorical_distribution(df, target_variable, llm_feature):
     plt.figure(figsize=(10, 6))
@@ -71,6 +84,7 @@ def get_stat_significance(df, categorical_variable, target_variable):
 
     print("---------------------------------------------------------------")
 
+
 def get_stat_significance_bootstrap(df, categorical_variable, target_variable, n_bootstrap=2500):
     cross_tab = pd.crosstab(df[categorical_variable], df[target_variable])
 
@@ -90,7 +104,7 @@ def get_stat_significance_bootstrap(df, categorical_variable, target_variable, n
         if cross_tab_sample.shape == cross_tab.shape:  # Ensure same shape for comparison
             chi2_sample, p_val_sample, _, _ = chi2_contingency(cross_tab_sample)
             if p_val_sample < 0.05:
-                i+= 1
+                i += 1
             bootstrap_p_values.append(p_val_sample)
 
     mean_p_val = np.mean(bootstrap_p_values)
@@ -132,6 +146,7 @@ def extract_json(response: str):
         print(f"Chyba při dekódování JSON: {e}")
         return None
 
+
 def process_txt_files(folder_path, prefix):
     """Zpracuje všechny txt soubory začínající prefixem (např. 'bank_part') ve složce a vrátí Pandas DataFrame."""
     all_data = []
@@ -148,7 +163,9 @@ def process_txt_files(folder_path, prefix):
             for line in file:
                 try:
                     json_obj = json.loads(line.strip())
-                    content_str = json_obj.get("response", {}).get("body", {}).get("choices", [{}])[0].get("message", {}).get("content", "")
+                    content_str = json_obj.get("response", {}).get("body", {}).get("choices", [{}])[0].get("message",
+                                                                                                           {}).get(
+                        "content", "")
                     extracted_json = extract_json(content_str)
 
                     if extracted_json:
@@ -162,3 +179,68 @@ def process_txt_files(folder_path, prefix):
 
     df = pd.DataFrame(all_data)
     return df
+
+
+def expand_contractions(text: str):
+    """Expand contractions in the text."""
+    return contractions.fix(text)
+
+
+def split_hyphenated(tokens):
+    """Split hyphenated words into individual words."""
+    new_tokens = []
+    for token in tokens:
+        if "-" in token:
+            new_tokens.extend(token.split("-"))  # Split into separate words
+        else:
+            new_tokens.append(token)
+    return new_tokens
+
+
+def remove_possessives(tokens):
+    return [re.sub(r"'s\b", "", token) for token in tokens]
+
+
+def get_wordnet_pos(word):
+    """Map POS tag to first character for WordNetLemmatizer."""
+    tag = pos_tag([word])[0][1][0].upper()
+    return {'J': wordnet.ADJ, 'V': wordnet.VERB, 'N': wordnet.NOUN, 'R': wordnet.ADV}.get(tag, wordnet.NOUN)
+
+
+def tokenize(text: str):
+    """Basic tokenization using regex and NLTK."""
+    text = re.sub(r'\d+', '', text)  # Remove digits
+    text = text.replace('/', ' ')
+    text = re.sub(r'\b(\w\.){2,}', lambda m: m.group(0).replace('.', ''), text)
+    text = re.sub(r'\s+', ' ', text).strip()  # Normalize spaces
+    return word_tokenize(text)
+
+
+def remove_punctuation(tokens):
+    """Remove punctuation from tokenized words."""
+    return [word for word in tokens if word not in string.punctuation]
+
+
+def remove_stopwords(tokens: list, stop_words: set):
+    """Remove dynamically identified stopwords and non-alphabetic words."""
+    return [word for word in tokens if word not in stop_words]
+
+
+def lemmatize(tokens: list):
+    """Lemmatize words using POS tags."""
+    lemmatizer = WordNetLemmatizer()
+    return [lemmatizer.lemmatize(word, get_wordnet_pos(word)) for word in tokens]
+
+
+def preprocessing(text: str):
+    """Full preprocessing pipeline with dynamic stopword removal."""
+    text = expand_contractions(text)
+    text = text.lower()
+    tokens = tokenize(text)
+    tokens = remove_possessives(tokens)
+    tokens = remove_punctuation(tokens)
+    stop_words = set(stopwords.words('english'))
+    tokens = split_hyphenated(tokens)
+    tokens = remove_stopwords(tokens, stop_words)
+    tokens = lemmatize(tokens)
+    return " ".join(tokens)
