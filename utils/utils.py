@@ -16,9 +16,7 @@ import re
 import string
 import contractions
 
-download('averaged_perceptron_tagger')
-download('stopwords')
-download('punkt')
+
 
 
 def plot_categorical_distribution(df, target_variable, llm_feature):
@@ -63,17 +61,16 @@ def get_stat_significance(df, categorical_variable, target_variable):
     k = min(cross_tab.shape) - 1  # smaller of (rows - 1) or (columns - 1)
     cramers_v = np.sqrt(chi2 / (n * k))
 
-    print("Chi-Squared Value:", chi2)
     print("P-value:", p_val)
     print("Cramér's V (Effect Size):", cramers_v)
 
     # Interpret effect size (Cramér's V)
     if cramers_v <= 0.1:
-        effect_size_interpretation = "Weak association"
+        effect_size_interpretation = "Small association"
     elif cramers_v <= 0.3:
-        effect_size_interpretation = "Moderate association"
+        effect_size_interpretation = "Mediun association"
     else:
-        effect_size_interpretation = "Strong association"
+        effect_size_interpretation = "Large association"
 
     print("Effect Size:", effect_size_interpretation)
 
@@ -234,6 +231,9 @@ def lemmatize(tokens: list):
 
 def preprocessing(text: str):
     """Full preprocessing pipeline with dynamic stopword removal."""
+    download('averaged_perceptron_tagger')
+    download('stopwords')
+    download('punkt_tab')
     text = expand_contractions(text)
     text = text.lower()
     tokens = tokenize(text)
