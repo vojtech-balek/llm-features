@@ -31,21 +31,37 @@ Data is stored in [data](data) folder.
 
 ### Feature Extraction
 
-Feature extraction as described in Methodology. The corresponding notebook is [feature_extraction.ipynb](notebooks/feature_extraction.ipynb).
+Feature extraction with user-defined features as described in Methodology. The corresponding notebook is [ffeature_extraction-CORD19-M17plus.ipynb](notebooks/feauture_extraction/feature_extraction-CORD19-M17plus.ipynb).
+
+Feature extraction with LLM-generated features using Batch API. The corresponding notebook is [llm-chatgpt.ipynb](notebooks/feauture_extraction/llm-chatgpt.ipynb).
 
 ### Feature Analysis
 
-Analysis of the features generated for the CORD-19 and M17+ datasets. Formal test of the relationship between target and generatef features [feature_interpretation.ipynb](notebooks/feature_analysis-CORD19-M17plus.ipynb).
+Analysis of the features generated for the datasets. Formal test of the relationship between target and generatef features:
+
+* CORD-19 and M17+: [feature_analysis-CORD19-M17plus.ipynb](notebooks/feature_analysis/feature_analysis-CORD19-M17plus.ipynb)
+* BANKING77: [feature_analysis-bank77.ipynb](notebooks/feature_analysis/feature_analysis-bank77.ipynb)
+* Hate Speech: [feature_analysis-hate_speech.ipynb](notebooks/feature_analysis/feature_analysis-hate_speech.ipynb)
 
 ### Model Evaluation
 
-Evaluate the performance of the models and the extracted features using [model_evaluation.ipynb](notebooks/model_evaluation.ipynb).
+Evaluate the performance of the models and the extracted user-defined features:
+
+* CORD-19 and M17+: [llm_classification-LLAMA2-c19-m17.ipynb](notebooks/classification/llm_classification-LLAMA2-c19-m17.ipynb)
+
+Evaluate the performance of the models and the extracted LLM-generated features:
+
+* BANKING77: [llm-classification-bank77.ipynb](notebooks/classification/llm-classification-bank77.ipynb)
+* Hate Speech: [llm-classification-hate.ipynb](notebooks/classification/llm-classification-hate.ipynb)
+* Food Hazard: [llm-classification-hazard.ipynb](notebooks/classification/llm-classification-hazard.ipynb)
+* CORD-19: [llm-classification-c19.ipynb](notebooks/classification/llm-classification-c19.ipynb)
+* M17+: [llm-classification-m17.ipynb](notebooks/classification/llm-classification-m17.ipynb)
 
 ### Action Rules
 
-Mining of the action rules for CORD-19 and M17+ datasets [action-CORD19.ipynb](notebooks/actions-CORD19.ipynb) and  [action-M17Plus.ipynb](notebooks/actions-M17Plus.ipynb).
+Mining of the action rules for CORD-19 and M17+ datasets [action-CORD19.ipynb](notebooks/action_rules/actions-CORD19.ipynb) and  [action-M17Plus.ipynb](notebooks/action_rules/actions-M17Plus.ipynb).
 
 
 ### License
 
-
+MIT
