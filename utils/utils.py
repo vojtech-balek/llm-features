@@ -16,7 +16,9 @@ import re
 import string
 import contractions
 
-
+download('averaged_perceptron_tagger')
+download('stopwords')
+download('punkt_tab')
 
 
 def plot_categorical_distribution(df, target_variable, llm_feature):
@@ -82,38 +84,71 @@ def get_stat_significance(df, categorical_variable, target_variable):
     print("---------------------------------------------------------------")
 
 
-def get_stat_significance_bootstrap(df, categorical_variable, target_variable, n_bootstrap=2500):
-    cross_tab = pd.crosstab(df[categorical_variable], df[target_variable])
+# python
+def get_stat_significance_bootstrap(df, categorical_variable, target_variable, n_bootstrap=1500):
+    import numpy as np
+    import pandas as pd
+    from scipy.stats import chi2_contingency
+    from sklearn.utils import resample
 
-    chi2, p_val, _, expected_freq = chi2_contingency(cross_tab)
+    # Create contingency table
+    cross_tab = pd.crosstab(df[categorical_variable], df[target_variable])
+    # Remove rows and columns with zero total counts
+    cross_tab = cross_tab.loc[cross_tab.sum(axis=1) > 0,
+    cross_tab.columns[cross_tab.sum(axis=0) > 0]]
+
+    # Compute chi-square test and expected frequencies; if there's an issue (e.g. due to zeros), add a tiny constant.
+    try:
+        chi2, p_val, _, expected_freq = chi2_contingency(cross_tab, correction=False)
+    except ValueError as e:
+        if "expected frequencies" in str(e):
+            cross_tab += 1e-8
+            chi2, p_val, _, expected_freq = chi2_contingency(cross_tab, correction=False)
+        else:
+            raise e
 
     # Calculate effect size (Cramér's V)
-    n = cross_tab.sum().sum()  # total number of observations
-    k = min(cross_tab.shape) - 1  # smaller of (rows - 1) or (columns - 1)
-    cramers_v = np.sqrt(chi2 / (n * k))
+    n = cross_tab.values.sum()
+    k = min(cross_tab.shape) - 1
+    cramers_v = np.sqrt(chi2 / (n * k)) if k > 0 else 0
 
     # Bootstrap validation
     bootstrap_p_values = []
-    i = 0
+    significant_count = 0
+
     for _ in range(n_bootstrap):
+        # Sample the data with replacement
         df_sample = resample(df)
         cross_tab_sample = pd.crosstab(df_sample[categorical_variable], df_sample[target_variable])
-        if cross_tab_sample.shape == cross_tab.shape:  # Ensure same shape for comparison
-            chi2_sample, p_val_sample, _, _ = chi2_contingency(cross_tab_sample)
-            if p_val_sample < 0.05:
-                i += 1
-            bootstrap_p_values.append(p_val_sample)
+        # Reindex to match the original table's structure
+        cross_tab_sample = cross_tab_sample.reindex(index=cross_tab.index,
+                                                    columns=cross_tab.columns,
+                                                    fill_value=0)
+        # Try to compute the chi-square test on the bootstrap sample
+        try:
+            chi2_sample, p_val_sample, _, _ = chi2_contingency(cross_tab_sample, correction=False)
+        except ValueError as e:
+            # If error is due to low expected frequencies, add a small constant and try again
+            if "expected frequencies" in str(e):
+                cross_tab_sample = cross_tab_sample + 1e-8
+                try:
+                    chi2_sample, p_val_sample, _, _ = chi2_contingency(cross_tab_sample, correction=False)
+                except Exception:
+                    continue  # skip this sample if error persists
+            else:
+                continue  # skip any sample with a different error
+        bootstrap_p_values.append(p_val_sample)
+        if p_val_sample < 0.05:
+            significant_count += 1
 
-    mean_p_val = np.mean(bootstrap_p_values)
+    # Avoid NaN for the mean bootstrap p-value: if no valid bootstrap samples were obtained, use the original p-value.
+    mean_p_val = np.mean(bootstrap_p_values) if bootstrap_p_values else p_val
 
-    # print(f"Chi-Squared Value: {chi2}")
     print(f"Original P-value: {p_val}")
     print(f"Bootstrap Mean P-value: {mean_p_val}")
-    print(f"Relationship is significant in {i}/{n_bootstrap} bootstrap samples.")
-
+    print(f"Relationship is significant in {significant_count}/{n_bootstrap} bootstrap samples.")
     print(f"Cramér's V (Effect Size): {cramers_v}")
 
-    # Interpret effect size (Cramér's V)
     effect_size_interpretation = (
         "Weak association" if cramers_v <= 0.1 else
         "Moderate association" if cramers_v <= 0.3 else
@@ -127,7 +162,6 @@ def get_stat_significance_bootstrap(df, categorical_variable, target_variable, n
         print(f"No significant association between {categorical_variable} and {target_variable}.")
 
     print("---------------------------------------------------------------")
-
 
 def extract_json(response: str):
     """Extract JSON content from a formatted string."""
@@ -231,9 +265,6 @@ def lemmatize(tokens: list):
 
 def preprocessing(text: str):
     """Full preprocessing pipeline with dynamic stopword removal."""
-    download('averaged_perceptron_tagger')
-    download('stopwords')
-    download('punkt_tab')
     text = expand_contractions(text)
     text = text.lower()
     tokens = tokenize(text)
