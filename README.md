@@ -11,8 +11,8 @@ This repository contains the code and supplementary materials for the scientific
 - [License](#license)
 
 ## Introduction
-Existing text representations such as embeddings and bag-of-words are not suitable for rule learning due to their high dimensionality and absent or questionable feature-level interpretability. This article explores whether large language models (LLMs) could address this by extracting a small number of interpretable features from text.
-We demonstrate this process on two datasets (CORD-19  and M17+) containing several thousand scientific articles from multiple disciplines and a target being a proxy for research impact. An evaluation based on testing for the statistically significant correlation with research impact has shown that LLama 2-generated features are semantically meaningful. We consequently used these generated features in text classification to predict the binary target variable representing the citation rate for the CORD-19 dataset and the ordinal 5-class target representing an expert-awarded grade in the M17+ dataset. Machine-learning models trained on the LLM-generated features provided similar predictive performance to the state-of-the-art embedding model SciBERT for scientific text. Not only did the LLM use only 62 features compared to 768 features in SciBERT embeddings, but these features were fully directly interpretable, as they corresponded to notions such as article methodological rigour, novelty, or grammatical correctness. Consequently, we apply action rule mining resulting in a small number of well-interpretable rules. Consistently competitive results obtained with the same LLM feature set across both thematically diverse datasets show that this approach generalizes across domains.  We also assume this technique could be used not only in rule learning but also in other white-box methods. Our results are replicable due to the use of open LLM. 
+Existing text representations such as embeddings and bag-of-words are not suitable for rule learning due to their high dimensionality and absent or questionable feature-level interpretability. This article explores whether large language models (LLMs) could address this by extracting a small number of interpretable features from text. Additionally, we introduce an LLM-based feature discovery mechanism that autonomously identifies key attributes directly from the data, thereby reducing reliance on manual feature selection. 
+We demonstrate this process primarily on two datasets (CORD-19 and M17+) containing several thousand scientific articles with a target proxy for research impact. An evaluation based on the statistically significant correlation with research impact has shown that LLama 2-generated features are semantically meaningful, and we consequently used these features for text classification—predicting the binary citation rate for the CORD-19 dataset and an ordinal 5-class expert-awarded grade for the M17+ dataset. Machine-learning models trained on the LLM-generated features provided similar predictive performance to the state-of-the-art embedding model SciBERT for scientific text—achieving competitive results with only 62 features (as opposed to 768 in SciBERT embeddings) that are fully interpretable, capturing qualities such as article methodological rigour, novelty, or grammatical correctness. Consequently, we apply action rule mining to derive a small number of well-interpretable rules, and we further believe that this technique can be beneficial for other white-box methods beyond rule learning.  In addition, to verify the universality of our approach, we applied it to additional datasets: BANKING77, Hate Speech, and Food Hazard (without action rule mining). 
 
 ## Installation
 
@@ -29,11 +29,13 @@ pip install -r requirements.txt
 ### Data
 Data is stored in [data](data) folder.
 
-### Feature Extraction
+### Feature Generation
 
-Feature extraction with user-defined features as described in Methodology. The corresponding notebook is [ffeature_extraction-CORD19-M17plus.ipynb](notebooks/feauture_extraction/feature_extraction-CORD19-M17plus.ipynb).
+Feature generation on user-defined features. The corresponding notebook is [ffeature_extraction-CORD19-M17plus.ipynb](notebooks/feauture_extraction/feature_extraction-CORD19-M17plus.ipynb).
 
-Feature extraction with LLM-generated features using Batch API. The corresponding notebook is [llm-chatgpt.ipynb](notebooks/feauture_extraction/llm-chatgpt.ipynb).
+### LLM-based feature generation with automatic feature discovery
+
+LLM-based feature discovery with GPT-4o and automated feature generation with GPT-4o-mini. The corresponding notebook with feature discovery prompt is [llm-chatgpt.ipynb](notebooks/feauture_extraction/llm-chatgpt.ipynb).
 
 ### Feature Analysis
 
